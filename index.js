@@ -14,14 +14,14 @@ app.post('/callback', async (req, res) => {
     console.log('Received callback:', req.body);
 
     // Example data you might send, customize as needed
-    // const dataToSend = {
-    //     user: "[Channel User Id]",
-    //     flow: "[Flow Name]",
-    //     entities: {}  // Optional
-    // };
+    const dataToSend = {
+        user: "648ebc698a80400573b5acfb",
+        flow: "GetStarted",
+        entities: {}  // Optional
+    };
 
     try {
-        const response = await axios.post(API_URL, {
+        const response = await axios.post(API_URL, dataToSend, {
             headers: {
                 'x-api-key': API_KEY,
                 'content-type': 'application/json'
