@@ -7,15 +7,15 @@ const app = express();
 // Middleware to parse JSON requests
 app.use(bodyParser.json());
 
-const API_URL = 'https://conv.chatclay.com/api/5f20b9c83b820631fdb738eb/send';
-const API_KEY = 'YH9kHzF5p4wk5b3zuHJ3LH';
+const API_URL = 'https://conv.chatclay.com/api/648701bbbf3af915b60daa2d/send';
+const API_KEY = 'X7EPhTxGee3tnfYCysxQXW';
 
 app.post('/callback', async (req, res) => {
     console.log('Received callback:', req.body);
 
     // Example data you might send, customize as needed
     const dataToSend = {
-        user: "653633ae6fc1766fbacf3002",
+        user: "648ebc698a80400573b5acfb",
         flow: "GetStarted",
         entities: {}  // Optional
     };
@@ -27,9 +27,6 @@ app.post('/callback', async (req, res) => {
                 'content-type': 'application/json'
             }
         });
-        const botReply = response.data.message.text;
-        console.log('Chatclay Bot Response:', botReply);
-        res.json({ status: 'success', botReply: botReply });
         console.log('API Response:', response.data);
         res.json({ status: 'success', apiResponse: response.data });
     } catch (error) {
