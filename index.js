@@ -39,7 +39,7 @@ app.post('/callback', async (req, res) => {
     
     // Check if the callback type is a message
     if(req.body.type === 'message' && req.body.payload.type === 'text') {
-        const senderId = req.body.payload.sender.phone;
+        const senderId = req.body.payload.id;
         const senderName = req.body.payload.sender.name;
         const textMessage = req.body.payload.payload.text;
         const timestamp = req.body.timestamp;
