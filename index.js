@@ -27,9 +27,7 @@ app.post('/callback', async (req, res) => {
                 'content-type': 'application/json'
             }
         });
-        const botReply = response.data.message.text;
-        console.log('Chatclay Bot Response:', botReply);
-        res.json({ status: 'success', botReply: botReply });
+        console.log('Chatclay Bot Response:', response);
         console.log('API Response:', response.data);
         res.json({ status: 'success', apiResponse: response.data });
     } catch (error) {
