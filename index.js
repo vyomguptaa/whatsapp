@@ -93,7 +93,6 @@ app.post('/callback', async (req, res) => {
             }
         });
         console.log('Response Data:', response.data);
-        console.log('Response text:', req.body.text);
         
         console.log('Response text:', req.body.message.text);
         
