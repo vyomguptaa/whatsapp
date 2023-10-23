@@ -71,11 +71,6 @@ const API_KEY = 'X7EPhTxGee3tnfYCysxQXW';  // Replace 'enter' with your actual A
 app.post('/callback', async (req, res) => {
     console.log('Received request:', req.body);
 
-    // Break the loop: Check if a certain condition is met in the request, and if so, don't call the API.
-    if (req.body.preventRecursion) {
-        return res.status(200).json({ message: 'Loop prevention triggered' });
-    }
-
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
         sender: {
@@ -98,6 +93,9 @@ app.post('/callback', async (req, res) => {
             }
         });
         console.log('Response Data:', response.data);
+        console.log('Response text:', req.body.text);
+        
+        console.log('Response text:', req.body.message.text);
         
         res.setHeader('Content-Type', 'application/json');
         res.json({ messagePayload: JSON.stringify(req.body.messagePayload)});
