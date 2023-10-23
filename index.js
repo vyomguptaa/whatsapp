@@ -7,7 +7,7 @@ const app = express();
 // Middleware to parse JSON requests
 app.use(bodyParser.json());
 
-const API_URL = 'https://conv.chatclay.com/api/648701bbbf3af915b60daa2d/send';
+const API_URL = 'https://conv.chatclay.com/api/5f20b9c83b820631fdb738eb/send';
 const API_KEY = 'X7EPhTxGee3tnfYCysxQXW';
 
 // app.post('/callback', async (req, res) => {
