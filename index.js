@@ -71,16 +71,21 @@ const API_KEY = 'X7EPhTxGee3tnfYCysxQXW';  // Replace 'enter' with your actual A
 app.post('/callback', async (req, res) => {
     console.log('Received request:', req.body);
 
+    // Break the loop: Check if a certain condition is met in the request, and if so, don't call the API.
+    if (req.body.preventRecursion) {
+        return res.status(200).json({ message: 'Loop prevention triggered' });
+    }
+
     const dataToSend = {
-        bot: "648701bbbf3af915b60daa2d",  // Assuming you receive the botId in the request body
+        bot: "648701bbbf3af915b60daa2d",
         sender: {
-            id: req.body.senderId,
-            name: req.body.senderName,
-            data: req.body.senderData
+            id: "6505d8ffbd59247f06e0ebaa",
+            name: "summer",
+            data: {}
         },
         message: {
-            text: req.body.messageText,
-            locale: req.body.messageLocale
+            text: "hi",
+            locale: ""
         },
         timestamp: req.body.timestamp
     };
@@ -93,20 +98,9 @@ app.post('/callback', async (req, res) => {
             }
         });
         console.log('Response Data:', response.data);
-        const formattedResponse = {
-            sender: {
-                id: "6505d8ffbd59247f06e0ebaa",
-                name: "BOT"
-            },
-            message: dataToSend.message,
-            user_data: dataToSend.sender.data, 
-            timestamp: dataToSend.timestamp
-        };
-        console.log('Format:', formattedResponse);
-        res.json(formattedResponse);
         
-        // res.setHeader('Content-Type', 'application/json');
-        // res.json({ messagePayload: JSON.stringify(req.body.messagePayload)});
+        res.setHeader('Content-Type', 'application/json');
+        res.json({ messagePayload: JSON.stringify(req.body.messagePayload)});
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
