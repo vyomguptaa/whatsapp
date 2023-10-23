@@ -60,7 +60,7 @@ app.post('/callback', async (req, res) => {
         };
 
         try {
-            const chatclayResponse = await axios.post('https://conv.chatclay.com/webhook/voice', chatclayPayload, {
+            const chatclayResponse = await axios.post(API_URL, chatclayPayload, {
                 headers: {
                     'x-api-key': API_KEY,
                     'content-type': 'application/json'
