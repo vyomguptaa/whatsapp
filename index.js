@@ -47,7 +47,7 @@ app.post('/callback', async (req, res) => {
         // Construct payload for Chatclay
         const chatclayPayload = {
             bot: "5f20b9c83b820631fdb738eb", 
-            user: senderId,
+            user: "648ebc698a80400573b5acfb",
             flow: "GetStarted",
             entities: {},
             // Assuming this is your Chatclay bot ID
