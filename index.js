@@ -27,8 +27,25 @@ app.post('/callback', async (req, res) => {
                 'content-type': 'application/json'
             }
         });
+        // console.log('API Response:', response.data);
+        // res.json({ status: 'success', apiResponse: response.data });
+        const botReplyPayload = {
+            sender: {
+                id: "648701bbbf3af915b60daa2d",  // Assuming this is your bot_id
+                name: "BOT"
+            },
+            message: {
+                text: response.data.message.text,
+                locale: response.data.message.locale || "en"  // defaulting to "en" if locale is not present
+            },
+            user_data: response.data.user_data || {},  // defaulting to an empty object if user_data is not present
+            timestamp: Date.now().toString()  // Current timestamp in milliseconds
+        };
+
+        console.log('BotReply Payload:', botReplyPayload);
         console.log('API Response:', response.data);
-        res.json({ status: 'success', apiResponse: response.data });
+
+        res.json({ status: 'success', apiResponse: response.data, botReplyPayload: botReplyPayload });
     } catch (error) {
         console.error('Error calling the API:', error.response.data);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
