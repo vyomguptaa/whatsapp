@@ -93,8 +93,20 @@ app.post('/callback', async (req, res) => {
             }
         });
         console.log('Response Data:', response.data);
-        res.setHeader('Content-Type', 'application/json');
-        res.json({ messagePayload: JSON.stringify(req.body.messagePayload)});
+        const formattedResponse = {
+            sender: {
+                id: "6505d8ffbd59247f06e0ebaa",
+                name: "BOT"
+            },
+            message: dataToSend.message,
+            user_data: dataToSend.sender.data, 
+            timestamp: dataToSend.timestamp
+        };
+        console.log('Format:', formattedResponse);
+        res.json(formattedResponse);
+        
+        // res.setHeader('Content-Type', 'application/json');
+        // res.json({ messagePayload: JSON.stringify(req.body.messagePayload)});
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
