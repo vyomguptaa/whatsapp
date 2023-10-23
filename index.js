@@ -74,13 +74,13 @@ app.post('/callback', async (req, res) => {
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",  // Assuming you receive the botId in the request body
         sender: {
-            id: "6505d8ffbd59247f06e0ebaa",
-            name: "summer",
-            data: {}
+            id: req.body.senderId,
+            name: req.body.senderName,
+            data: req.body.senderData
         },
         message: {
-            text: "hi",
-            locale: ""
+            text: req.body.messageText,
+            locale: req.body.messageLocale
         },
         timestamp: req.body.timestamp
     };
