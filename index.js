@@ -10,28 +10,78 @@ app.use(bodyParser.json());
 const API_URL = 'https://conv.chatclay.com/api/648701bbbf3af915b60daa2d/send';
 const API_KEY = 'X7EPhTxGee3tnfYCysxQXW';
 
+// app.post('/callback', async (req, res) => {
+//     console.log('Received callback:', req.body);
+
+//     // Example data you might send, customize as needed
+//     const dataToSend = {
+//         user: "648ebc698a80400573b5acfb",
+//         flow: "GetStarted",
+//         entities: {}  // Optional
+//     };
+
+//     try {
+//         const response = await axios.post(API_URL, dataToSend, {
+//             headers: {
+//                 'x-api-key': API_KEY,
+//                 'content-type': 'application/json'
+//             }
+//         });
+//         console.log('API Response:', response.data);
+//         res.json({ status: 'success', apiResponse: response.data });
+//     } catch (error) {
+//         console.error('Error calling the API:', error.response.data);
+//         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
+//     }
+// });
 app.post('/callback', async (req, res) => {
     console.log('Received callback:', req.body);
+    
+    // Check if the callback type is a message
+    if(req.body.type === 'message' && req.body.payload.type === 'text') {
+        const senderId = req.body.payload.sender.phone;
+        const senderName = req.body.payload.sender.name;
+        const textMessage = req.body.payload.payload.text;
+        const timestamp = req.body.timestamp;
 
-    // Example data you might send, customize as needed
-    const dataToSend = {
-        user: "648ebc698a80400573b5acfb",
-        flow: "GetStarted",
-        entities: {}  // Optional
-    };
+        // Construct payload for Chatclay
+        const chatclayPayload = {
+            bot: "648ebc698a80400573b5acfb", // Assuming this is your Chatclay bot ID
+            sender: {
+                id: senderId,
+                name: senderName,
+                data: {} // Add any custom data if required
+            },
+            message: {
+                text: textMessage,
+                locale: "en" // You can adjust this based on the user's preference or language detection
+            },
+            timestamp: timestamp
+        };
 
-    try {
-        const response = await axios.post(API_URL, dataToSend, {
-            headers: {
-                'x-api-key': API_KEY,
-                'content-type': 'application/json'
-            }
-        });
-        console.log('API Response:', response.data);
-        res.json({ status: 'success', apiResponse: response.data });
-    } catch (error) {
-        console.error('Error calling the API:', error.response.data);
-        res.status(500).json({ status: 'error', message: 'Failed to call the API' });
+        try {
+            const chatclayResponse = await axios.post('https://conv.chatclay.com/webhook/voice', chatclayPayload, {
+                headers: {
+                    'x-api-key': API_KEY,
+                    'content-type': 'application/json'
+                }
+            });
+            
+            // Extract the bot reply from Chatclay's response
+            const botReply = chatclayResponse.data.message.text;
+            
+            // TODO: Forward this botReply to the user on WhatsApp using GupShup's APIs
+            // You'd typically use another endpoint of GupShup to send a message to the user. 
+
+            console.log('Chatclay Bot Response:', botReply);
+            res.json({ status: 'success', botReply: botReply });
+        } catch (error) {
+            console.error('Error calling the API:', error.response ? error.response.data : error.message);
+            res.status(500).json({ status: 'error', message: 'Failed to call the API' });
+        }
+    } else {
+        // Handle other types of callbacks if needed
+        res.json({ status: 'ignored', message: 'Callback not of type message/text' });
     }
 });
 
