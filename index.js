@@ -152,6 +152,8 @@ const handleRequest = async (req, res, currentReq) => {
                 });
                 console.log('Response Data from API:', response.data);
                 console.log('Received reply from chatclay:', currentReq.body);
+            
+                console.log('Received reply from gupshup details:', currentReq.body);
                 res.json(req.body); 
         // }
     } catch (error) {
@@ -162,7 +164,7 @@ const handleRequest = async (req, res, currentReq) => {
 
 app.post('/callback', async (req2, res2) => {
     console.log('Received request from Gupshup:', req2.body);
-    await handleRequest(req2, res2);
+    await handleRequest(req2, res2, req2);
 });
 
 app.post('/chatbot-reply', async (req3, res3) => {
