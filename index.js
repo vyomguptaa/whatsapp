@@ -152,7 +152,7 @@ const handleRequest = async (req, res) => {
                 });
                 console.log('Response Data from API:', response.data);
                 console.log('Received reply from chatclay:', req3.body);
-                res.json(req3.body); 
+                res.json(req.body); 
         // }
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
@@ -162,12 +162,12 @@ const handleRequest = async (req, res) => {
 
 app.post('/callback', async (req2, res2) => {
     console.log('Received request from Gupshup:', req2.body);
-    await handleRequest(req, res);
+    await handleRequest(req2, res2);
 });
 
 app.post('/chatbot-reply', async (req3, res3) => {
     console.log('Received reply from chatbot:', req3.body.message);
-    await handleRequest(req, res);
+    await handleRequest(req3, res3);
 });
 
 const PORT = process.env.PORT || 3000;
