@@ -126,9 +126,7 @@ app.use(bodyParser.json());
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
 const API_KEY = 'X7EPhTxGee3tnfYCysxQXW'; 
 
-app.post('/gupshup-callback', async (req, res) => {
-    console.log('Received request from Gupshup:', req.body);
-
+const handleRequest = async (req, res) => {
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
         sender: {
@@ -151,21 +149,21 @@ app.post('/gupshup-callback', async (req, res) => {
             }
         });
         console.log('Response Data from API:', response.data);
-        
         res.json({ status: 'success', apiResponse: response.data });
-
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
+};
+
+app.post('/gupshup-callback', async (req, res) => {
+    console.log('Received request from Gupshup:', req.body);
+    await handleRequest(req, res);
 });
 
-app.post('/chatbot-reply', (req, res) => {
+app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body);
-    
-    // Handle the chatbot reply logic here
-    
-    res.json({ status: 'success', message: 'Chatbot reply received' });
+    await handleRequest(req, res);
 });
 
 const PORT = process.env.PORT || 3000;
