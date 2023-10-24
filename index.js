@@ -156,7 +156,7 @@ const handleRequest = async (req, res) => {
     }
 };
 
-app.post('/gupshup-callback', async (req, res) => {
+app.post('/callback', async (req, res) => {
     console.log('Received request from Gupshup:', req.body);
     await handleRequest(req, res);
 });
