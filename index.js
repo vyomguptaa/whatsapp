@@ -142,15 +142,18 @@ const handleRequest = async (req, res) => {
     };
 
     try {
-        const response = await axios.post(API_URL, dataToSend, {
-            headers: {
-                'x-api-key': API_KEY,
-                'content-type': 'application/json'
-            }
-        });
-        console.log('Response Data from API:', response.data);
-        console.log('Received reply from chatclay:', req2.body);
-        res.json(req.body); 
+            // if (req2.body.payload) || (req3.body.messagePayload( {
+        
+                const response = await axios.post(API_URL, dataToSend, {
+                    headers: {
+                        'x-api-key': API_KEY,
+                        'content-type': 'application/json'
+                    }
+                });
+                console.log('Response Data from API:', response.data);
+                console.log('Received reply from chatclay:', req3.body);
+                res.json(req3.body); 
+        // }
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
@@ -162,8 +165,8 @@ app.post('/callback', async (req2, res2) => {
     await handleRequest(req, res);
 });
 
-app.post('/chatbot-reply', async (req2, res2) => {
-    console.log('Received reply from chatbot:', req2.body.message);
+app.post('/chatbot-reply', async (req3, res3) => {
+    console.log('Received reply from chatbot:', req3.body.message);
     await handleRequest(req, res);
 });
 
