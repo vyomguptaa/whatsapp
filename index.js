@@ -149,7 +149,7 @@ const handleRequest = async (req, res) => {
             }
         });
         console.log('Response Data from API:', response.data);
-        // console.log('Received reply from chatclay:', req.body);
+        console.log('Received reply from chatclay:', req2.body);
         res.json(req.body); 
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
@@ -162,8 +162,8 @@ app.post('/callback', async (req, res) => {
     await handleRequest(req, res);
 });
 
-app.post('/chatbot-reply', async (req, res) => {
-    console.log('Received reply from chatbot:', req.body.message);
+app.post('/chatbot-reply', async (req2, res2) => {
+    console.log('Received reply from chatbot:', req2.body.message);
     await handleRequest(req, res);
 });
 
