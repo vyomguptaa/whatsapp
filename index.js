@@ -149,6 +149,8 @@ const handleRequest = async (req, res) => {
             }
         });
         console.log('Response Data from API:', response.data);
+        console.log('Received reply from chatclay:', req.body);
+        res.json(req.body); 
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
@@ -161,9 +163,8 @@ app.post('/callback', async (req, res) => {
 });
 
 app.post('/chatbot-reply', async (req, res) => {
-    console.log('Received reply from chatbot:', req.body);
+    console.log('Received reply from chatbot:', req.body.message);
     await handleRequest(req, res);
-    res.json(req.body);
 });
 
 const PORT = process.env.PORT || 3000;
