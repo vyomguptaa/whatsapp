@@ -69,7 +69,7 @@ const API_URL = 'https://conv.chatclay.com/webhook/voice';
 const API_KEY = 'X7EPhTxGee3tnfYCysxQXW';  // Replace 'enter' with your actual API key
 
 app.post('/callback', async (req, res) => {
-    console.log('Received request:', req.body);
+    // console.log('Received request:', req.body);
 
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
@@ -94,10 +94,10 @@ app.post('/callback', async (req, res) => {
         });
         console.log('Response Data:', response.data);
         
-        // console.log('Response text:', req.body.message.text);
-        const parsedMessagePayload = JSON.parse(req.body.messagePayload);
-        const extractedText = parsedMessagePayload.text;
-        console.log(extractedText);
+        console.log('Response text:', req.body);
+        // const parsedMessagePayload = JSON.parse(req.body.messagePayload);
+        // const extractedText = parsedMessagePayload.text;
+        // console.log(extractedText);
         // res.setHeader('Content-Type', 'application/json');
         // res.json({ messagesPayload: response.data});
         res.json({ status: 'success', apiResponse: response.data });
