@@ -100,7 +100,7 @@ app.post('/callback', async (req, res) => {
         // console.log(extractedText);
         // res.setHeader('Content-Type', 'application/json');
         // res.json({ messagesPayload: response.data});
-        res.json({ status: 'success', apiResponse: response.data });
+        res.json({ status: 'success', apiResponse: req.body });
         // res.json({message: req.body});
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
