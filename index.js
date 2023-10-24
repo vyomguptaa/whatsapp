@@ -149,7 +149,7 @@ const handleRequest = async (req, res) => {
             }
         });
         console.log('Response Data from API:', response.data);
-        console.log('Received reply from chatclay:', req.body);
+        // console.log('Received reply from chatclay:', req.body);
         res.json(req.body); 
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
