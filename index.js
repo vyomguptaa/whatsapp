@@ -162,10 +162,10 @@ app.post('/callback', async (req, res) => {
     await handleRequest(req, res);
 });
 
-app.post('/chatbot-reply', async (req, res) => {
-    console.log('Received reply from chatbot:', req.body.message);
-    await handleRequest(req, res);
-});
+// app.post('/chatbot-reply', async (req, res) => {
+//     console.log('Received reply from chatbot:', req.body.message);
+//     await handleRequest(req, res);
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
