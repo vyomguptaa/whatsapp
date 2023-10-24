@@ -126,7 +126,7 @@ app.use(bodyParser.json());
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
 const API_KEY = 'X7EPhTxGee3tnfYCysxQXW'; 
 
-const handleRequest = async (req, res) => {
+const handleRequest = async (req, res, currentReq) => {
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
         sender: {
@@ -151,7 +151,7 @@ const handleRequest = async (req, res) => {
                     }
                 });
                 console.log('Response Data from API:', response.data);
-                console.log('Received reply from chatclay:', req3.body);
+                console.log('Received reply from chatclay:', currentReq.body);
                 res.json(req.body); 
         // }
     } catch (error) {
@@ -167,7 +167,7 @@ app.post('/callback', async (req2, res2) => {
 
 app.post('/chatbot-reply', async (req3, res3) => {
     console.log('Received reply from chatbot:', req3.body.message);
-    await handleRequest(req3, res3);
+    await handleRequest(req3, res3, req3);
 });
 
 const PORT = process.env.PORT || 3000;
