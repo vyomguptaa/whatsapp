@@ -154,7 +154,7 @@ const handleRequest = async (req, res, currentReq) => {
                 console.log('Received reply from chatclay:', currentReq.body);
             
                 console.log('Received reply from gupshup details:', currentReq.body);
-                res.json(req.body); 
+                res.json(currentReq.body); 
         // }
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
