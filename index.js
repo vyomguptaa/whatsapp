@@ -181,13 +181,12 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 
 const app = express();
+
 app.use(bodyParser.json());
 
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
-
-const handleRequest2 = async (originalReq, originalRes, chatbotReplyBody = null) => {
-    const requestBody = originalReq.body;
-
+const API_KEY = 'X7EPhTxGee3tnfYCysxQXW'; 
+const handleRequest2 = async (req, res) => {
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
         sender: {
@@ -196,10 +195,10 @@ const handleRequest2 = async (originalReq, originalRes, chatbotReplyBody = null)
             data: {}
         },
         message: {
-            text: requestBody.payload.payload.text,
+            text: req.body.payload.payload.text,
             locale: ""
         },
-        timestamp: requestBody.timestamp
+        timestamp: req.body.timestamp
     };
 
     try {
@@ -209,17 +208,25 @@ const handleRequest2 = async (originalReq, originalRes, chatbotReplyBody = null)
                 'content-type': 'application/json'
             }
         });
-
-        console.log('please', requestBody);
-
+        console.log('please', req.body);
+        // If the incoming request has messagePayload, then return it
+        // if (req.body.messagePayload) {
+        //     console.log('Response Data from API1:', req.body);
+        //     console.log('Received reply from chatbot handle:', req.body.message);
+        //     return res.json({ messagePayload: req.body.messagePayload });
+        // } else {
+        //     console.log('Response Data from API2:', response.data);
+        //     console.log('Received request:', req.body);
+        //     // return res.json(req.body);
+        // }
         const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply');
-        console.log('giving', chatbotReply);
-
-        return originalRes.json({ messagePayload: chatbotReply.data });
-
+        console.log('giving', chatbotReply.data);
+        console.log('answer', chatbotReply.body);
+        // Return the message from the chatbot-reply response
+        return res.json({ messagePayload: chatbotReply.data });
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
-        originalRes.status(500).json({ status: 'error', message: 'Failed to call the API' });
+        res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
 };
 
@@ -228,9 +235,12 @@ app.post('/callback', async (req, res) => {
     await handleRequest2(req, res);
 });
 
+
 app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body);
-    await handleRequest2(req, res, req.body);
+    
+
+    // await handleRequest2(req, res);
     return res.json({ messagePayload: req.body });
 });
 
