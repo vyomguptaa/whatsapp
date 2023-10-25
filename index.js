@@ -219,10 +219,11 @@ const handleRequest2 = async (req, res) => {
         //     console.log('Received request:', req.body);
         //     // return res.json(req.body);
         // }
-        const chatbotReply = axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: response.data.message });
+        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply');
         console.log('giving', chatbotReply.data);
+        console.log('answer', chatbotReply.body);
         // Return the message from the chatbot-reply response
-        return res.json({ messagePayload: chatbotReply.data.messagePayload });
+        return res.json({ messagePayload: chatbotReply.data });
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
