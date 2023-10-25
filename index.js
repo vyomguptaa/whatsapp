@@ -176,7 +176,17 @@
 // app.listen(PORT, () => {
 //     console.log(`Server started on port ${PORT}`);
 // });
+const express = require('express');
+const bodyParser = require('body-parser');
+const axios = require('axios');
 
+const app = express();
+
+// Middleware to parse JSON requests
+app.use(bodyParser.json());
+
+const API_URL = 'https://conv.chatclay.com/webhook/voice';
+const API_KEY = 'X7EPhTxGee3tnfYCysxQXW'; 
 const handleRequest2 = async (req, res) => {
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
