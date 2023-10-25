@@ -235,7 +235,7 @@ app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body.message);
     
 
-    await handleRequest2(req, res);
+    // await handleRequest2(req, res);
     return res.json({ messagePayload: req.body.message });
 });
 
