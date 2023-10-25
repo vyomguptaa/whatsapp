@@ -185,8 +185,8 @@ app.use(bodyParser.json());
 
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
 
-const handleRequest2 = async (originalReq, originalRes, chatbotReplyBody = null) => {
-    const requestBody = chatbotReplyBody || originalReq.body;
+const handleCallback = async (req, res) => {
+    const requestBody = req.body;
 
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
@@ -209,30 +209,27 @@ const handleRequest2 = async (originalReq, originalRes, chatbotReplyBody = null)
                 'content-type': 'application/json'
             }
         });
+        console.log('Response from API:', response.data);
+        // Assuming you want to send this data to the chatbot-reply endpoint
+        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', response.data);
+        console.log('Chatbot Reply:', chatbotReply.data);
 
-        console.log('please', requestBody);
-        console.log('hey' , chatbotReplyBody);
-        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply');
-        console.log('giving', chatbotReply);
-
-        return originalRes.json({ messagePayload: chatbotReply.data });
+        return res.json({ messagePayload: chatbotReply.data });
 
     } catch (error) {
-        console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
-        originalRes.status(500).json({ status: 'error', message: 'Failed to call the API' });
+        console.error('Error:', error.response ? error.response.data : error.message);
+        res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
 };
 
-app.post('/callback', async (req, res) => {
-    console.log('Received request from Gupshup:', req.body);
-    await handleRequest2(req, res);
-});
-
-app.post('/chatbot-reply', async (req, res) => {
+const handleChatbotReply = async (req, res) => {
     console.log('Received reply from chatbot:', req.body);
-    await handleRequest2(req, res, req.body);
+    // Here you can handle the chatbot reply. If you just want to send back the chatbot reply:
     return res.json({ messagePayload: req.body });
-});
+};
+
+app.post('/callback', handleCallback);
+app.post('/chatbot-reply', handleChatbotReply);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
