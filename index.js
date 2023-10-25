@@ -209,6 +209,7 @@ const handleRequest2 = async (req, res) => {
             }
         });
         console.log('please', req.body);
+        console.log('please 2', response.data);
         // If the incoming request has messagePayload, then return it
         // if (req.body.messagePayload) {
         //     console.log('Response Data from API1:', req.body);
@@ -220,6 +221,7 @@ const handleRequest2 = async (req, res) => {
         //     // return res.json(req.body);
         // }
         const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: response.data.message });
+        console.log('please text', response.data);
         console.log('give', chatbotReply);
         // Return the message from the chatbot-reply response
         return res.json({ messagePayload: chatbotReply.data.messagePayload });
