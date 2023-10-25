@@ -234,7 +234,7 @@ const handleRequest = async (req, res) => {
             data: {}
         },
         message: {
-            text: req.body.payload.payload.text,
+            text: "",
             locale: ""
         },
         timestamp: req.body.timestamp
