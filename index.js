@@ -237,7 +237,8 @@ const handleRequest = async (req, res) => {
             text: "",
             locale: ""
         },
-        timestamp: req.body.timestamp
+        timestamp: req.body.timestamp,
+        processed: true
     };
    const API_URL = 'https://conv.chatclay.com/webhook/voice';
     try {
@@ -271,6 +272,10 @@ app.post('/callback', async (req, res) => {
 
 app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body.message);
+    if (req.body.processed) {
+        return res.status(200).json({ message: "Request already processed" });
+    }
+
     await handleRequest(req, res);
 });
 
