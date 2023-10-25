@@ -182,7 +182,6 @@ const axios = require('axios');
 
 const app = express();
 
-// Middleware to parse JSON requests
 app.use(bodyParser.json());
 
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
@@ -225,45 +224,7 @@ const handleRequest2 = async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
 };
-const handleRequest = async (req, res) => {
-    const dataToSend = {
-        bot: "648701bbbf3af915b60daa2d",
-        sender: {
-            id: "6505d8ffbd59247f06e0ebaa",
-            name: "summer",
-            data: {}
-        },
-        message: {
-            text: "",
-            locale: ""
-        },
-        timestamp: req.body.timestamp,
-        processed: true
-    };
-   const API_URL = 'https://conv.chatclay.com/webhook/voice';
-    try {
-        const response = await axios.post(API_URL, dataToSend, {
-            headers: {
-                'x-api-key': 'X7EPhTxGee3tnfYCysxQXW',
-                'content-type': 'application/json'
-            }
-        });
-        console.log('check' , req.body);
-        // If the incoming request has messagePayload, then return it
-        if (req.body.messagePayload) {
-            console.log('Response Data from API 4:', req.body);
-            console.log('Received reply from chatbot handle:', req.body.message);
-            return res.json({ messagePayload: req.body.messagePayload });
-        } else {
-            console.log('Response Data from API 5:', response.data);
-            console.log('Received request:', req.body);
-            // return res.json(req.body);
-        }
-    } catch (error) {
-        console.error('Error calling the API 6:', error.response ? error.response.data : error.message);
-        res.status(500).json({ status: 'error', message: 'Failed to call the API' });
-    }
-};
+
 app.post('/callback', async (req, res) => {
     console.log('Received request from Gupshup:', req.body);
     await handleRequest2(req, res);
