@@ -235,13 +235,13 @@ app.post('/callback', async (req, res) => {
 });
 
 
-// app.post('/chatbot-reply', async (req, res) => {
-//     console.log('Received reply from chatbot:', req.body.message);
+app.post('/chatbot-reply', async (req, res) => {
+    console.log('Received reply from chatbot:', req.body.message);
     
 
-//     // await handleRequest2(req, res);
-//     return res.json({ messagePayload: req.body.message });
-// });
+    // await handleRequest2(req, res);
+    return res.json({ messagePayload: req.body.message });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
