@@ -265,13 +265,13 @@ const handleRequest2 = async (req, res) => {
 
 app.post('/callback', async (req, res) => {
     console.log('Received request from Gupshup:', req.body);
-    await handleRequest(req, res);
+    // await handleRequest(req, res);
 });
 
-app.post('/chatbot-reply', async (req, res) => {
-    console.log('Received reply from chatbot:', req.body.message);
-    await handleRequest2(req, res);
-});
+// app.post('/chatbot-reply', async (req, res) => {
+//     console.log('Received reply from chatbot:', req.body.message);
+//     await handleRequest2(req, res);
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
