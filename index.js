@@ -208,21 +208,8 @@ const handleRequest2 = async (req, res) => {
                 'content-type': 'application/json'
             }
         });
-        console.log('please', req.body);
-        // If the incoming request has messagePayload, then return it
-        // if (req.body.messagePayload) {
-        //     console.log('Response Data from API1:', req.body);
-        //     console.log('Received reply from chatbot handle:', req.body.message);
-        //     return res.json({ messagePayload: req.body.messagePayload });
-        // } else {
-        //     console.log('Response Data from API2:', response.data);
-        //     console.log('Received request:', req.body);
-        //     // return res.json(req.body);
-        // }
         const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply');
         console.log('giving', chatbotReply.data);
-        console.log('answer', chatbotReply.body);
-        // Return the message from the chatbot-reply response
         return res.json({ messagePayload: chatbotReply.data });
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
@@ -238,10 +225,7 @@ app.post('/callback', async (req, res) => {
 
 app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body);
-    
-
-    // await handleRequest2(req, res);
-    return res.json({ messagePayload: req.body });
+    return res.json({ messagePayload: req.body.messagePayload });
 });
 
 const PORT = process.env.PORT || 3000;
