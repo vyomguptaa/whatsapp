@@ -220,7 +220,7 @@ const handleRequest2 = async (req, res) => {
         //     // return res.json(req.body);
         // }
         const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: req.body.message });
-        console.log('giving', chatbotReplyData);
+        console.log('giving', chatbotReply);
         const chatbotReplyData = JSON.parse(chatbotReply.data);
         console.log('give', chatbotReplyData.data);
             
