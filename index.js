@@ -272,11 +272,9 @@ app.post('/callback', async (req, res) => {
 
 app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body.message);
-    if (req.body.processed) {
-        return res.status(200).json({ message: "Request already processed" });
-    }
 
-    await handleRequest(req, res);
+
+    await handleRequest2(req, res);
 });
 
 const PORT = process.env.PORT || 3000;
