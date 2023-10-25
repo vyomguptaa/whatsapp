@@ -212,7 +212,7 @@ const handleCallback = async (req, res) => {
         console.log('Response from API:', response.data);
 
         // Now call the chatbot-reply endpoint
-        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/callback', response.data);
+        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply');
         console.log('Chatbot Reply:', chatbotReply.data);
 
         // Use the chatbotReply's data as the response for the /callback endpoint
@@ -223,15 +223,33 @@ const handleCallback = async (req, res) => {
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
 };
+const handleChatbotReplyForward = async (reqBody) => {
+    try {
+        const response = await axios.post('/callback', reqBody, {
+            headers: {
+                'content-type': 'application/json'
+            }
+        });
+        console.log('Response from callback:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
 
 app.post('/callback', handleCallback);
 
-// For the /chatbot-reply endpoint, if it's still accessible externally, 
-// it simply echoes back the incoming request body
-// app.post('/chatbot-reply', (req, res) => {
-//     console.log('Received reply from chatbot:', req.body);
-//     return res.json({ messagePayload: req.body });
-// });
+app.post('/chatbot-reply', async (req, res) => {
+    console.log('Received reply from chatbot:', req.body);
+    try {
+        const forwardResponse = await handleChatbotReplyForward(req.body);
+        return res.json(forwardResponse);
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: 'Failed to forward the chatbot reply' });
+    }
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
