@@ -240,7 +240,7 @@ app.post('/chatbot-reply', async (req, res) => {
     
 
     // await handleRequest2(req, res);
-    return res.json({ messagePayload: req.body.message });
+    return res.json({ messagePayload: req.body });
 });
 
 const PORT = process.env.PORT || 3000;
