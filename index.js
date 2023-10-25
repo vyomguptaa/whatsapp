@@ -218,7 +218,7 @@ const handleRequest2 = async (req, res) => {
         } else {
             console.log('Response Data from API2:', response.data);
             console.log('Received request:', req.body);
-            return res.json(req.body);
+            // return res.json(req.body);
         }
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
@@ -257,7 +257,7 @@ const handleRequest = async (req, res) => {
         } else {
             console.log('Response Data from API 5:', response.data);
             console.log('Received request:', req.body);
-            return res.json(req.body);
+            // return res.json(req.body);
         }
     } catch (error) {
         console.error('Error calling the API 6:', error.response ? error.response.data : error.message);
@@ -272,7 +272,7 @@ app.post('/callback', async (req, res) => {
 
 app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body.message);
-
+    return res.json({ messagePayload: req.body.messagePayload });
 
     // await handleRequest2(req, res);
 });
