@@ -225,11 +225,12 @@ const handleCallback = async (req, res) => {
 };
 const handleChatbotReplyForward = async (reqBody) => {
     try {
-        const response = await axios.post('/callback', reqBody, {
+        const response = await axios.post('https://whatsapp-wo7o.onrender.com/callback', reqBody, {
             headers: {
                 'content-type': 'application/json'
             }
         });
+        console.log(reqBody.data);
         console.log('Response from callback:', response.data);
         return response.data;
     } catch (error) {
