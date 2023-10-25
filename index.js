@@ -32,17 +32,19 @@ const handleRequest2 = async (req, res) => {
         });
         console.log('please', req.body);
         // If the incoming request has messagePayload, then return it
-        // if (req.body.payload.payload) {
-            const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: response.data.message });
-            console.log('give', chatbotReply);
-        // Return the message from the chatbot-reply response
-            return res.json({ messagePayload: chatbotReply.data.messagePayload });
+        // if (req.body.messagePayload) {
+        //     console.log('Response Data from API1:', req.body);
+        //     console.log('Received reply from chatbot handle:', req.body.message);
+        //     return res.json({ messagePayload: req.body.messagePayload });
         // } else {
         //     console.log('Response Data from API2:', response.data);
         //     console.log('Received request:', req.body);
         //     // return res.json(req.body);
         // }
-
+        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: response.data.message });
+        console.log('give', chatbotReply);
+        // Return the message from the chatbot-reply response
+        return res.json({ messagePayload: chatbotReply.data.messagePayload });
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
@@ -56,15 +58,13 @@ app.post('/callback', async (req, res) => {
 
 
 app.post('/chatbot-reply', async (req, res) => {
-    try {
-        console.log('Received reply from chatbot:', req.body);
-        const result = await handleRequest2(req.body);
-        res.json(result);
-    } catch (error) {
-        console.error('Error processing chatbot reply:', error);
-        res.status(500).json({ status: 'error', message: 'Internal server error' });
-    }
+    console.log('Received reply from chatbot:', req.body.message);
+    
+
+    // await handleRequest2(req, res);
+    return res.json({ messagePayload: req.body.message });
 });
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
