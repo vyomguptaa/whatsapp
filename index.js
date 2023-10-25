@@ -205,7 +205,7 @@ const handleRequest2 = async (req, res) => {
     try {
         const response = await axios.post(API_URL, dataToSend, {
             headers: {
-                'x-api-key': API_KEY,
+                'x-api-key': 'X7EPhTxGee3tnfYCysxQXW',
                 'content-type': 'application/json'
             }
         });
@@ -239,15 +239,15 @@ const handleRequest = async (req, res) => {
     //     },
     //     timestamp: req.body.timestamp
     // };
-
+   const API_URL = 'https://conv.chatclay.com/webhook/voice';
     try {
         const response = await axios.post(API_URL, {
             headers: {
-                'x-api-key': API_KEY,
+                'x-api-key': 'X7EPhTxGee3tnfYCysxQXW',
                 'content-type': 'application/json'
             }
         });
-
+        console.log('check' , req.body);
         // If the incoming request has messagePayload, then return it
         if (req.body.messagePayload) {
             console.log('Response Data from API 4:', req.body);
