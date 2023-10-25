@@ -272,7 +272,7 @@ app.post('/callback', async (req, res) => {
 
 app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body.message);
-    return res.json({ messagePayload: req.body.messagePayload });
+    return res.json({ messagePayload: req.body.message });
 
     // await handleRequest2(req, res);
 });
