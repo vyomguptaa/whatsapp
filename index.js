@@ -212,7 +212,7 @@ const handleCallback = async (req, res) => {
         console.log('Response from API:', response.data);
 
         // Now call the chatbot-reply endpoint
-        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', response.data);
+        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/callback', response.data);
         console.log('Chatbot Reply:', chatbotReply.data);
 
         // Use the chatbotReply's data as the response for the /callback endpoint
@@ -228,10 +228,10 @@ app.post('/callback', handleCallback);
 
 // For the /chatbot-reply endpoint, if it's still accessible externally, 
 // it simply echoes back the incoming request body
-app.post('/chatbot-reply', (req, res) => {
-    console.log('Received reply from chatbot:', req.body);
-    return res.json({ messagePayload: req.body });
-});
+// app.post('/chatbot-reply', (req, res) => {
+//     console.log('Received reply from chatbot:', req.body);
+//     return res.json({ messagePayload: req.body });
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
