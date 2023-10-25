@@ -230,7 +230,7 @@ const handleRequest2 = async (req, res) => {
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
         sender: {
-            id: req.body.payload.sender.phone,
+            id: req.body.payload.id,
             name: req.body.payload.sender.name,
             data: {}
         },
@@ -270,10 +270,10 @@ app.post('/callback', async (req, res) => {
 });
 
 
-// app.post('/chatbot-reply', async (req, res) => {
-//     console.log('Received reply from chatbot:', req.body.message);
-//     await handleRequest2(req, res);
-// });
+app.post('/chatbot-reply', async (req, res) => {
+    console.log('Received reply from chatbot:', req.body.message);
+    await handleRequest2(req, res);
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
