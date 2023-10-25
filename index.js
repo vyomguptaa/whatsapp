@@ -220,7 +220,7 @@ const handleRequest2 = async (req, res) => {
         //     // return res.json(req.body);
         // }
         const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: response.data.message });
-
+        console.log('give', chatbotReply);
         // Return the message from the chatbot-reply response
         return res.json({ messagePayload: chatbotReply.data.messagePayload });
     } catch (error) {
@@ -235,13 +235,13 @@ app.post('/callback', async (req, res) => {
 });
 
 
-app.post('/chatbot-reply', async (req, res) => {
-    console.log('Received reply from chatbot:', req.body.message);
+// app.post('/chatbot-reply', async (req, res) => {
+//     console.log('Received reply from chatbot:', req.body.message);
     
 
-    // await handleRequest2(req, res);
-    return res.json({ messagePayload: req.body.message });
-});
+//     // await handleRequest2(req, res);
+//     return res.json({ messagePayload: req.body.message });
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
