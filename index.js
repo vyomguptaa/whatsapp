@@ -219,8 +219,9 @@ const handleRequest2 = async (req, res) => {
         //     console.log('Received request:', req.body);
         //     // return res.json(req.body);
         // }
-        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: response.data.message });
-        const chatbotReplyData = JSON.parse(chatbotReplyResponse.data);
+        const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: req.body.message });
+        console.log('giving', chatbotReplyData);
+        const chatbotReplyData = JSON.parse(chatbotReply.data);
         console.log('give', chatbotReplyData.data);
             
         // Return the message from the chatbot-reply response
