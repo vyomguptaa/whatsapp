@@ -226,6 +226,43 @@ const handleRequest = async (req, res) => {
     }
 };
 
+const handleRequest2 = async (req, res) => {
+    const dataToSend = {
+        bot: "648701bbbf3af915b60daa2d",
+        sender: {
+            id: "6505d8ffbd59247f06e0ebaa",
+            name: "summer",
+            data: {}
+        },
+        message: {
+            text: "hi",
+            locale: ""
+        },
+        timestamp: req.body.timestamp
+    };
+
+    try {
+        const response = await axios.post(API_URL, dataToSend, {
+            headers: {
+                'x-api-key': API_KEY,
+                'content-type': 'application/json'
+            }
+        });
+
+        // If the incoming request has messagePayload, then return it
+        if (req.body.messagePayload) {
+            return res.json({ messagePayload: req.body.messagePayload });
+        } else {
+            console.log('Response Data from API:', response.data);
+            console.log('Received request:', req.body);
+            return res.json(req.body);
+        }
+    } catch (error) {
+        console.error('Error calling the API:', error.response ? error.response.data : error.message);
+        res.status(500).json({ status: 'error', message: 'Failed to call the API' });
+    }
+};
+
 app.post('/callback', async (req, res) => {
     console.log('Received request from Gupshup:', req.body);
     await handleRequest(req, res);
@@ -233,7 +270,7 @@ app.post('/callback', async (req, res) => {
 
 app.post('/chatbot-reply', async (req, res) => {
     console.log('Received reply from chatbot:', req.body.message);
-    await handleRequest(req, res);
+    await handleRequest2(req, res);
 });
 
 const PORT = process.env.PORT || 3000;
