@@ -252,6 +252,7 @@ const handleRequest2 = async (req, res) => {
         // If the incoming request has messagePayload, then return it
         if (req.body.messagePayload) {
             console.log('Response Data from API:', req.body);
+            console.log('Received reply from chatbot handle:', req.body.message);
             return res.json({ messagePayload: req.body.messagePayload });
         } else {
             console.log('Response Data from API:', response.data);
