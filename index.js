@@ -212,16 +212,16 @@ const handleRequest2 = async (req, res) => {
 
         // If the incoming request has messagePayload, then return it
         if (req.body.messagePayload) {
-            console.log('Response Data from API:', req.body);
+            console.log('Response Data from API1:', req.body);
             console.log('Received reply from chatbot handle:', req.body.message);
             return res.json({ messagePayload: req.body.messagePayload });
         } else {
-            console.log('Response Data from API:', response.data);
+            console.log('Response Data from API2:', response.data);
             console.log('Received request:', req.body);
             return res.json(req.body);
         }
     } catch (error) {
-        console.error('Error calling the API 1:', error.response ? error.response.data : error.message);
+        console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
 };
@@ -250,16 +250,16 @@ const handleRequest = async (req, res) => {
 
         // If the incoming request has messagePayload, then return it
         if (req.body.messagePayload) {
-            console.log('Response Data from API 2:', req.body);
+            console.log('Response Data from API 4:', req.body);
             console.log('Received reply from chatbot handle:', req.body.message);
             return res.json({ messagePayload: req.body.messagePayload });
         } else {
-            console.log('Response Data from API 1:', response.data);
+            console.log('Response Data from API 5:', response.data);
             console.log('Received request:', req.body);
             return res.json(req.body);
         }
     } catch (error) {
-        console.error('Error calling the API 2:', error.response ? error.response.data : error.message);
+        console.error('Error calling the API 6:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
 };
