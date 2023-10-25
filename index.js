@@ -30,7 +30,7 @@ const handleRequest2 = async (req, res) => {
                 'content-type': 'application/json'
             }
         });
-        console.log('please', req.body);
+        console.log('please', response.data);
         // If the incoming request has messagePayload, then return it
         // if (req.body.messagePayload) {
         //     console.log('Response Data from API1:', req.body);
