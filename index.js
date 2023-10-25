@@ -186,7 +186,7 @@ app.use(bodyParser.json());
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
 
 const handleRequest2 = async (originalReq, originalRes, chatbotReplyBody = null) => {
-    const requestBody = originalReq.body;
+    const requestBody = chatbotReplyBody || originalReq.body;
 
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
@@ -211,7 +211,7 @@ const handleRequest2 = async (originalReq, originalRes, chatbotReplyBody = null)
         });
 
         console.log('please', requestBody);
-
+        console.log('hey' , chatbotReplyBody);
         const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply');
         console.log('giving', chatbotReply);
 
