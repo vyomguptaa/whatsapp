@@ -226,22 +226,22 @@ const handleRequest2 = async (req, res) => {
     }
 };
 const handleRequest = async (req, res) => {
-    // const dataToSend = {
-    //     bot: "648701bbbf3af915b60daa2d",
-    //     sender: {
-    //         id: "6505d8ffbd59247f06e0ebaa",
-    //         name: "summer",
-    //         data: {}
-    //     },
-    //     message: {
-    //         text: req.body.payload.payload.text,
-    //         locale: ""
-    //     },
-    //     timestamp: req.body.timestamp
-    // };
+    const dataToSend = {
+        bot: "648701bbbf3af915b60daa2d",
+        sender: {
+            id: "6505d8ffbd59247f06e0ebaa",
+            name: "summer",
+            data: {}
+        },
+        message: {
+            text: req.body.payload.payload.text,
+            locale: ""
+        },
+        timestamp: req.body.timestamp
+    };
    const API_URL = 'https://conv.chatclay.com/webhook/voice';
     try {
-        const response = await axios.post(API_URL, {
+        const response = await axios.post(API_URL, dataToSend, {
             headers: {
                 'x-api-key': 'X7EPhTxGee3tnfYCysxQXW',
                 'content-type': 'application/json'
