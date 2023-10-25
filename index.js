@@ -114,6 +114,69 @@
 // });
 
 
+// const express = require('express');
+// const bodyParser = require('body-parser');
+// const axios = require('axios');
+
+// const app = express();
+
+// // Middleware to parse JSON requests
+// app.use(bodyParser.json());
+
+// const API_URL = 'https://conv.chatclay.com/webhook/voice';
+// const API_KEY = 'X7EPhTxGee3tnfYCysxQXW'; 
+
+// const handleRequest = async (req, res, currentReq) => {
+//     const dataToSend = {
+//         bot: "648701bbbf3af915b60daa2d",
+//         sender: {
+//             id: "6505d8ffbd59247f06e0ebaa",
+//             name: "summer",
+//             data: {}
+//         },
+//         message: {
+//             text: "hi",
+//             locale: ""
+//         },
+//         timestamp: req.body.timestamp
+//     };
+
+//     try {
+//             // if (req2.body.payload) || (req3.body.messagePayload( {
+        
+//                 const response = await axios.post(API_URL, dataToSend, {
+//                     headers: {
+//                         'x-api-key': API_KEY,
+//                         'content-type': 'application/json'
+//                     }
+//                 });
+//                 console.log('Response Data from API:', response.data);
+//                 console.log('Received reply from chatclay:', currentReq.body);
+            
+//                 console.log('Received reply from gupshup details:', currentReq.body);
+//                 res.json(currentReq.body); 
+//         // }
+//     } catch (error) {
+//         console.error('Error calling the API:', error.response ? error.response.data : error.message);
+//         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
+//     }
+// };
+
+// app.post('/callback', async (req2, res2) => {
+//     console.log('Received request from Gupshup:', req2.body);
+//     await handleRequest(req2, res2, req2);
+// });
+
+// app.post('/chatbot-reply', async (req3, res3) => {
+//     console.log('Received reply from chatbot:', req3.body.message);
+//     await handleRequest(req3, res3, req3);
+// });
+
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//     console.log(`Server started on port ${PORT}`);
+// });
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
@@ -126,7 +189,7 @@ app.use(bodyParser.json());
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
 const API_KEY = 'X7EPhTxGee3tnfYCysxQXW'; 
 
-const handleRequest = async (req, res, currentReq) => {
+const handleRequest = async (req, res) => {
     const dataToSend = {
         bot: "648701bbbf3af915b60daa2d",
         sender: {
@@ -142,37 +205,39 @@ const handleRequest = async (req, res, currentReq) => {
     };
 
     try {
-            // if (req2.body.payload) || (req3.body.messagePayload( {
-        
-                const response = await axios.post(API_URL, dataToSend, {
-                    headers: {
-                        'x-api-key': API_KEY,
-                        'content-type': 'application/json'
-                    }
-                });
-                console.log('Response Data from API:', response.data);
-                console.log('Received reply from chatclay:', currentReq.body);
-            
-                console.log('Received reply from gupshup details:', currentReq.body);
-                res.json(currentReq.body); 
-        // }
+        const response = await axios.post(API_URL, dataToSend, {
+            headers: {
+                'x-api-key': API_KEY,
+                'content-type': 'application/json'
+            }
+        });
+
+        // If the incoming request has messagePayload, then return it
+        if (req.body.messagePayload) {
+            return res.json({ messagePayload: req.body.messagePayload });
+        } else {
+            console.log('Response Data from API:', response.data);
+            console.log('Received request:', req.body);
+            return res.json(req.body);
+        }
     } catch (error) {
         console.error('Error calling the API:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
     }
 };
 
-app.post('/callback', async (req2, res2) => {
-    console.log('Received request from Gupshup:', req2.body);
-    await handleRequest(req2, res2, req2);
+app.post('/callback', async (req, res) => {
+    console.log('Received request from Gupshup:', req.body);
+    await handleRequest(req, res);
 });
 
-app.post('/chatbot-reply', async (req3, res3) => {
-    console.log('Received reply from chatbot:', req3.body.message);
-    await handleRequest(req3, res3, req3);
+app.post('/chatbot-reply', async (req, res) => {
+    console.log('Received reply from chatbot:', req.body.message);
+    await handleRequest(req, res);
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
+
