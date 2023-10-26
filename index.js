@@ -45,10 +45,10 @@ const handleRequest2 = async (req, res) => {
         
         // const chatbotReply = await axios.post('https://whatsapp-wo7o.onrender.com/chatbot-reply', { message: response.data.message });
         // console.log('give', chatbotReply);
-        let answer = {};
+        var answer = {};
         app.post('/chatbot-reply', async (req, res) => {
             console.log('Received reply from chatbot 2:', req.body.message);
-            answer = req.body.message;
+            answer = req.body;
             return res.json({ messagePayload: req.body.message });
         });
         console.log(answer);
