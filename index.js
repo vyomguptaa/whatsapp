@@ -50,7 +50,7 @@ const handleRequest2 = async (req, res) => {
 
         // console.log('answer', answer.messagePayload.text);
         // Return the message from the chatbot-reply response
-        return res.json({ messagePayload: answer.messagePayload });
+        return res.json({ messagePayload: parsedPayload.text });
 
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
