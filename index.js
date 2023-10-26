@@ -46,7 +46,7 @@ const handleRequest2 = async (req, res) => {
         // Await for the event to be emitted
         const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
 
-        console.log(answer.messagePayload.text);
+        console.log('answer', answer.messagePayload);
         // Return the message from the chatbot-reply response
         return res.json({ messagePayload: answer.messagePayload });
 
