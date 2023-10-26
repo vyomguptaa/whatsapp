@@ -46,9 +46,9 @@ const handleRequest2 = async (req, res) => {
         // Await for the event to be emitted
         const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
 
-        console.log(answer);
+        console.log(answer.messagePayload.text);
         // Return the message from the chatbot-reply response
-        return res.json({ messagePayload: answer.messagePayload.message });
+        return res.json({ messagePayload: answer.messagePayload });
 
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
