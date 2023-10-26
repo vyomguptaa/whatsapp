@@ -47,9 +47,9 @@ const handleRequest2 = async (req, res) => {
         // console.log('give', chatbotReply);
         var answer = {};
         app.post('/chatbot-reply', async (req, res) => {
-            console.log('Received reply from chatbot 2:', req.body.message);
+            console.log('Received reply from chatbot 2:', req.body);
             answer = req.body;
-            return res.json({ messagePayload: req.body.message });
+            return res.json({ messagePayload: req.body });
         });
         console.log(answer);
         // Return the message from the chatbot-reply response
