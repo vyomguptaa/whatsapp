@@ -53,7 +53,7 @@ const handleRequest2 = async (req, res) => {
         });
         console.log(answer);
         // Return the message from the chatbot-reply response
-        // return res.json({ messagePayload: chatbotReply.data.messagePayload });
+        return res.json({ messagePayload: answer });
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
         res.status(500).json({ status: 'error', message: 'Failed to call the API' });
