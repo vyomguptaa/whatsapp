@@ -23,7 +23,7 @@ const handleRequest2 = async (req, res) => {
         bot: "6541f452234d442ffb2dc202",
         sender: {
             id: "6505d8ffbd59247f06e0ebaa",
-            name: "summer",
+            name: req.body.payload.sender.name,
             data: {}
         },
         message: {
