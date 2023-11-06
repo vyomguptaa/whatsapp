@@ -52,6 +52,7 @@ const handleRequest2 = async (req, res) => {
         // Await for the event to be emitted
         const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
         let parsedPayload = JSON.parse(answer.messagePayload);
+        console.log("full", parsedPayload);
         console.log('Received text:', parsedPayload.text);
 
         // console.log('answer', answer.messagePayload.text);
@@ -65,7 +66,7 @@ const handleRequest2 = async (req, res) => {
 };
 
 app.post('/callback', async (req, res) => {
-    console.log('Received request from Gupshup:', req.body);
+    // console.log('Received request from Gupshup:', req.body);
     await handleRequest2(req, res);
 });
 
