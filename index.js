@@ -49,15 +49,32 @@ const handleRequest2 = async (req, res) => {
 
         // console.log('please', response.data);
 
-        // Await for the event to be emitted
-        const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
-        let parsedPayload = JSON.parse(answer.messagePayload);
-        // console.log("full", parsedPayload);
-        console.log('Received text:', parsedPayload.text);
+        // Await for the event to be emitted .......
+        // const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
+        // let parsedPayload = JSON.parse(answer.messagePayload);
+        // console.log('Received text:', parsedPayload.text
+        // return res.send(parsedPayload.text);
+        const messages = [];
 
-        // console.log('answer', answer.messagePayload.text);
-        // Return the message from the chatbot-reply response
-        return res.send(parsedPayload.text);
+        // Await for the events to be emitted until the last message is received
+        const collectMessages = async () => {
+            for await (const answer of events.on('receivedChatbotReply')) {
+                const payload = JSON.parse(answer.messagePayload);
+
+                // Add the received message to the messages array
+                messages.push(payload.text);
+
+                if (payload.is_last_message) {
+                    // Break the loop if this is the last message
+                    break;
+                }
+            }
+        };
+
+        await collectMessages();
+        console.log('Received text:', messages);
+        // Return all the collected messages
+        return res.json({ messages });
 
     } catch (error) {
         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
