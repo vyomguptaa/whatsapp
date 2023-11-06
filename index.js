@@ -50,31 +50,10 @@
 //         // console.log('please', response.data);
 
 //         // Await for the event to be emitted .......
-//         // const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
-//         // let parsedPayload = JSON.parse(answer.messagePayload);
-//         // console.log('Received text:', parsedPayload.text
-//         // return res.send(parsedPayload.text);
-//         const messages = [];
-
-//         // Await for the events to be emitted until the last message is received
-//         const collectMessages = async () => {
-//             for await (const answer of events.on('receivedChatbotReply')) {
-//                 const payload = JSON.parse(answer.messagePayload);
-
-//                 // Add the received message to the messages array
-//                 messages.push(payload.text);
-
-//                 if (payload.is_last_message) {
-//                     // Break the loop if this is the last message
-//                     break;
-//                 }
-//             }
-//         };
-
-//         await collectMessages();
-//         console.log('Received text:', messages);
-//         // Return all the collected messages
-//         return res.json({ messages });
+//         const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
+//         let parsedPayload = JSON.parse(answer.messagePayload);
+//         console.log('Received text:', parsedPayload.text);
+//         return res.send(parsedPayload.text);
 
 //     } catch (error) {
 //         console.error('Error calling the API 3:', error.response ? error.response.data : error.message);
@@ -91,7 +70,7 @@
 // app.listen(PORT, () => {
 //     console.log(`Server started on port ${PORT}`);
 // });
-
+//
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
@@ -99,6 +78,7 @@ const { EventEmitter } = require('events');
 
 const app = express();
 app.use(bodyParser.json());
+
 const API_URL = 'https://conv.chatclay.com/webhook/voice';
 const API_KEY = 'JXNHGFmWMDFWZ4LtdHYStE'; 
 
@@ -114,19 +94,13 @@ const collectMessages = (timeout = 30000) => {
     }, timeout);
 
     const listener = (data) => {
-      try {
-        const parsedData = JSON.parse(data.messagePayload);
-        messages.push(parsedData.text);
+      messages.push(data);
 
-        if (parsedData.is_last_message) {
-          clearTimeout(timer);
-          events.removeListener('receivedChatbotReply', listener);
-          resolve(messages);
-        }
-      } catch (error) {
+      // Assuming 'is_last_message' is a boolean that's true for the last message.
+      if (data.is_last_message) {
         clearTimeout(timer);
         events.removeListener('receivedChatbotReply', listener);
-        reject(error);
+        resolve(messages);
       }
     };
 
@@ -171,7 +145,7 @@ app.post('/callback', async (req, res) => {
     // Wait for all messages to be received
     const allMessages = await collectMessages();
     // Return all messages as a response
-    return res.json({ messages: allMessages });
+    return res.json({ messages: allMessages.map(m => m.messagePayload) });
 
   } catch (error) {
     console.error('Error calling the chatbot API:', error.response ? error.response.data : error.message);
