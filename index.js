@@ -19,6 +19,7 @@ app.post('/chatbot-reply', async (req, res) => {
 });
 
 const handleRequest2 = async (req, res) => {
+    console.log(req.body);
     if (!req.body.payload || !req.body.payload.payload || !req.body.payload.payload.text) {
         console.log('The text property is not defined, returning nothing.');
         return res.status(400).json({ status: 'error', message: 'No text provided' });
