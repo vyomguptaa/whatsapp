@@ -13,13 +13,13 @@ const API_KEY = 'JXNHGFmWMDFWZ4LtdHYStE';
 const events = new EventEmitter();  // Create an event emitter
 
 app.post('/chatbot-reply', async (req, res) => {
-    // console.log('Received reply from chatbot 2:', req.body);
+    console.log('Received reply from chatbot 2:', req.body);
     events.emit('receivedChatbotReply', req.body);  // Emit event when data is received
     return res.json({ messagePayload: req.body });
 });
 
 const handleRequest2 = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     if (!req.body.payload || !req.body.payload.payload || !req.body.payload.payload.text) {
         console.log('The text property is not defined, returning nothing.');
         return res.status(400).json({ status: 'error', message: 'No text provided' });
@@ -52,7 +52,7 @@ const handleRequest2 = async (req, res) => {
         // Await for the event to be emitted
         const answer = await new Promise(resolve => events.once('receivedChatbotReply', resolve));
         let parsedPayload = JSON.parse(answer.messagePayload);
-        console.log("full", parsedPayload);
+        // console.log("full", parsedPayload);
         console.log('Received text:', parsedPayload.text);
 
         // console.log('answer', answer.messagePayload.text);
