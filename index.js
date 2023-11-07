@@ -144,8 +144,10 @@ app.post('/callback', async (req, res) => {
 
     // Wait for all messages to be received
     const allMessages = await collectMessages();
+    const combinedMessageText = allMessages.map(m => JSON.parse(m.messagePayload).text).join('\n');
+    return res.send(combinedMessageText);
     // Return all messages as a response
-    return res.json({ messages: allMessages.map(m => m.messagePayload.text) });
+    // return res.json({ messages: allMessages.map(m => m.messagePayload.text) });
 
   } catch (error) {
     console.error('Error calling the chatbot API:', error.response ? error.response.data : error.message);
