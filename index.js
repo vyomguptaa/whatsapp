@@ -35,13 +35,13 @@ const collectMessages = (timeout = 30000) => {
     events.on('receivedChatbotReply', listener);
   });
 };
-
+// Route to receive replies from the chatbot
 app.post('/chatbot-reply', (req, res) => {
   console.log('Received reply from chatbot:', req.body);
   events.emit('receivedChatbotReply', req.body);
   return res.json({ messagePayload: req.body });
 });
-
+// Route to handle incoming webhook callbacks from Gupshup
 app.post('/callback', async (req, res) => {
   console.log(req.body);
   if (!req.body.payload || !req.body.payload.payload || !req.body.payload.payload.text) {
@@ -116,7 +116,7 @@ const allMessages = await collectMessages();
       }
     });
 
-    // If there are quick replies, send them, otherwise send the combined text
+    // Decide whether to send back quick replies or just the text, depending on what was received
     if (quickRepliesFormatted.length > 0) {
       // return res.json({ messages: combinedMessageText.trim(), quickReplies: quickRepliesFormatted });
       // return res.send(quickRepliesFormatted);
