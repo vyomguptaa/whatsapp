@@ -143,17 +143,30 @@ app.post('/callback', async (req, res) => {
     });
 
     // Wait for all messages to be received
+    // const allMessages = await collectMessages();
     const allMessages = await collectMessages();
-    // console.log("quick", allMessages.map(m => JSON.parse(m.messagePayload).quick_replies);
-    const payload3 = JSON.parse(m.messagePayload);
-    if (payload3.quick_replies) {
+    // Process messages to get text and log quick_replies
+    let combinedMessageText = '';
+    allMessages.forEach(m => {
+      const payload = JSON.parse(m.messagePayload);
+      combinedMessageText += payload.text + '\n';
+
+      // Check and log quick_replies
+      if (payload.quick_replies) {
         console.log('Quick replies:', payload.quick_replies);
       }
-    const combinedMessageText = allMessages.map(m => JSON.parse(m.messagePayload).text).join('\n');
-    // console.log(combinedMessageText);
-    return res.send(combinedMessageText);
-    // Return all messages as a response
-    // return res.json({ messages: allMessages.map(m => m.messagePayload.text) });
+    });
+    
+    // Send all message texts as plain text
+    return res.send(combinedMessageText.trim());
+    
+    // const payload3 = JSON.parse(m.messagePayload);
+    // if (payload3.quick_replies) {
+    //     console.log('Quick replies:', payload.quick_replies);
+    //   }
+    // const combinedMessageText = allMessages.map(m => JSON.parse(m.messagePayload).text).join('\n');
+
+    // return res.send(combinedMessageText);
 
   } catch (error) {
     console.error('Error calling the chatbot API:', error.response ? error.response.data : error.message);
