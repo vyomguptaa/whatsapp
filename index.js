@@ -115,6 +115,7 @@ app.post('/chatbot-reply', (req, res) => {
 });
 
 app.post('/callback', async (req, res) => {
+  console.log(req.body);
   if (!req.body.payload || !req.body.payload.payload || !req.body.payload.payload.text) {
     console.log('The text property is not defined, returning nothing.');
     return res.status(400).json({ status: 'error', message: 'No text provided' });
@@ -130,6 +131,12 @@ app.post('/callback', async (req, res) => {
     message: {
       text: req.body.payload.payload.text,
       locale: ""
+    },
+    payload: {
+      type: req.body.payload.type,
+      payload: {
+        type: req.body.payload.payload.type,
+      },
     },
     timestamp: req.body.timestamp
   };
