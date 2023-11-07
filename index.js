@@ -165,12 +165,18 @@ const allMessages = await collectMessages();
             version: 2,
             type: "message",
             payload: {
-              // id: "someUniqueId", // This should be a unique ID for the message
-              // source: req.body.payload.sender.id,
+              id: req.body.payload.id, // This should be a unique ID for the message
+              source: req.body.payload.source,
               type: "text",
               payload: {
                 text: quickReply.title,
                 type: "button"
+              },
+              sender: {
+                phone: req.body.payload.sender.phone,
+                name: req.body.payload.sender.name,
+                country_code: req.body.payload.sender.country_code, // Replace with actual country code if available
+                dial_code: req.body.payload.sender.dial_code, // Replace with actual dial code if available
               },
             }
           };
