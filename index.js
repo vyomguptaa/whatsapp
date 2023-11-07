@@ -144,7 +144,11 @@ app.post('/callback', async (req, res) => {
 
     // Wait for all messages to be received
     const allMessages = await collectMessages();
-    console.log("quick", allMessages.map(m => JSON.parse(m.messagePayload).quick_replies);
+    // console.log("quick", allMessages.map(m => JSON.parse(m.messagePayload).quick_replies);
+    const payload3 = JSON.parse(m.messagePayload);
+    if (payload3.quick_replies) {
+        console.log('Quick replies:', payload.quick_replies);
+      }
     const combinedMessageText = allMessages.map(m => JSON.parse(m.messagePayload).text).join('\n');
     // console.log(combinedMessageText);
     return res.send(combinedMessageText);
