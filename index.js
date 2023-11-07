@@ -177,7 +177,8 @@ const allMessages = await collectMessages();
 
     // If there are quick replies, send them, otherwise send the combined text
     if (quickRepliesFormatted.length > 0) {
-      return res.json({ messages: combinedMessageText.trim(), quickReplies: quickRepliesFormatted });
+      // return res.json({ messages: combinedMessageText.trim(), quickReplies: quickRepliesFormatted });
+      return res.send(quickRepliesFormatted);
     } else {
       return res.send(combinedMessageText.trim());
     }
