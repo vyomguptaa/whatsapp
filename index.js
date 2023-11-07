@@ -141,24 +141,59 @@ app.post('/callback', async (req, res) => {
         'content-type': 'application/json'
       }
     });
-
-    // Wait for all messages to be received
-    // const allMessages = await collectMessages();
-    const allMessages = await collectMessages();
-    // Process messages to get text and log quick_replies
+const allMessages = await collectMessages();
     let combinedMessageText = '';
+    let quickRepliesFormatted = [];
+
     allMessages.forEach(m => {
       const payload = JSON.parse(m.messagePayload);
       combinedMessageText += payload.text + '\n';
 
-      // Check and log quick_replies
+      // Check for quick_replies and format them
       if (payload.quick_replies) {
-        console.log('Quick replies:', payload.quick_replies);
+        payload.quick_replies.forEach((quickReply) => {
+          const formattedQuickReply = {
+            app: "PlexusWhatsapInt", // Replace with your app name
+            timestamp: new Date().getTime(),
+            version: 2,
+            type: "message",
+            payload: {
+              // id: "someUniqueId", // This should be a unique ID for the message
+              // source: req.body.payload.sender.id,
+              type: "text",
+              payload: {
+                text: quickReply.title,
+                type: "button"
+              },
+            }
+          };
+
+          // Add to quickRepliesFormatted array
+          quickRepliesFormatted.push(formattedQuickReply);
+          console.log('Formatted quick reply:', formattedQuickReply);
+        });
       }
     });
-    
-    // Send all message texts as plain text
-    return res.send(combinedMessageText.trim());
+
+    // If there are quick replies, send them, otherwise send the combined text
+    if (quickRepliesFormatted.length > 0) {
+      return res.json({ messages: combinedMessageText.trim(), quickReplies: quickRepliesFormatted });
+    } else {
+      return res.send(combinedMessageText.trim());
+    }
+
+    // Wait for all messages to be received
+    // const allMessages = await collectMessages();
+    // let combinedMessageText = '';
+    // allMessages.forEach(m => {
+    //   const payload = JSON.parse(m.messagePayload);
+    //   combinedMessageText += payload.text + '\n';
+    //   if (payload.quick_replies) {
+    //     console.log('Quick replies:', payload.quick_replies);
+    //   }
+    // });
+    // return res.send(combinedMessageText.trim());
+    // new
     
     // const payload3 = JSON.parse(m.messagePayload);
     // if (payload3.quick_replies) {
